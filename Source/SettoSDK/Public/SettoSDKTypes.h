@@ -34,10 +34,6 @@ struct SETTOSDK_API FSettoConfig
 {
     GENERATED_BODY()
 
-    /** Merchant ID (required) */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Setto")
-    FString MerchantId;
-
     /** Environment (Dev or Prod) */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Setto")
     ESettoEnvironment Environment = ESettoEnvironment::Dev;
@@ -58,6 +54,10 @@ USTRUCT(BlueprintType)
 struct SETTOSDK_API FSettoPaymentParams
 {
     GENERATED_BODY()
+
+    /** Merchant ID (required) */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Setto")
+    FString MerchantId;
 
     /** Payment amount in USD */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Setto")

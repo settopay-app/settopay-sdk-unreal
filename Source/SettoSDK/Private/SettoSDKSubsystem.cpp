@@ -42,17 +42,10 @@ void USettoSDKSubsystem::InitializeSDK(const FSettoConfig& Config)
         return;
     }
 
-    if (Config.MerchantId.IsEmpty())
-    {
-        UE_LOG(LogTemp, Error, TEXT("[SettoSDK] MerchantId is required"));
-        return;
-    }
-
     CurrentConfig = Config;
     bIsInitialized = true;
 
-    DebugLog(FString::Printf(TEXT("Initialized with MerchantId: %s, Env: %s"),
-        *Config.MerchantId,
+    DebugLog(FString::Printf(TEXT("Initialized with Env: %s"),
         Config.Environment == ESettoEnvironment::Dev ? TEXT("Dev") : TEXT("Prod")));
 }
 
@@ -64,6 +57,16 @@ void USettoSDKSubsystem::OpenPayment(const FSettoPaymentParams& Params, const FO
         FSettoPaymentResult Result;
         Result.Status = ESettoPaymentStatus::Failed;
         Result.Error = TEXT("SDK not initialized");
+        OnComplete.ExecuteIfBound(Result);
+        return;
+    }
+
+    if (Params.MerchantId.IsEmpty())
+    {
+        UE_LOG(LogTemp, Error, TEXT("[SettoSDK] MerchantId is required"));
+        FSettoPaymentResult Result;
+        Result.Status = ESettoPaymentStatus::Failed;
+        Result.Error = TEXT("MerchantId is required");
         OnComplete.ExecuteIfBound(Result);
         return;
     }
@@ -85,7 +88,7 @@ void USettoSDKSubsystem::OpenPayment(const FSettoPaymentParams& Params, const FO
         // Simple Mode: Direct URL with query params
         FString Url = FString::Printf(TEXT("%s/pay/wallet?merchant_id=%s&amount=%s"),
             *GetBaseUrl(),
-            *CurrentConfig.MerchantId,
+            *Params.MerchantId,
             *Params.Amount);
 
         if (!Params.OrderId.IsEmpty())
@@ -127,7 +130,7 @@ void USettoSDKSubsystem::RequestPaymentToken(const FSettoPaymentParams& Params)
 
     // Build JSON body
     TSharedRef<FJsonObject> JsonObject = MakeShared<FJsonObject>();
-    JsonObject->SetStringField(TEXT("merchant_id"), CurrentConfig.MerchantId);
+    JsonObject->SetStringField(TEXT("merchant_id"), Params.MerchantId);
     JsonObject->SetStringField(TEXT("amount"), Params.Amount);
     if (!Params.OrderId.IsEmpty())
     {
