@@ -18,13 +18,13 @@ Get Game Instance -> Get Subsystem (SettoSDKSubsystem)
 
 // 2. Initialize
 Call InitializeSDK with:
-  - MerchantId: "your-merchant-id"
   - Environment: Dev or Prod
   - IdpToken: (optional) for auto-login
   - bDebug: true
 
 // 3. Open Payment
 Call OpenPayment with:
+  - MerchantId: "your-merchant-id"  // 멀티 머천트 지원
   - Amount: "10.00"
   - OrderId: (optional)
 Bind OnComplete delegate
@@ -40,13 +40,13 @@ USettoSDKSubsystem* SettoSDK = GetGameInstance()->GetSubsystem<USettoSDKSubsyste
 
 // Initialize
 FSettoConfig Config;
-Config.MerchantId = TEXT("your-merchant-id");
 Config.Environment = ESettoEnvironment::Dev;
 Config.bDebug = true;
 SettoSDK->InitializeSDK(Config);
 
 // Open payment
 FSettoPaymentParams Params;
+Params.MerchantId = TEXT("your-merchant-id");  // 멀티 머천트 지원
 Params.Amount = TEXT("10.00");
 
 SettoSDK->OpenPayment(Params, FOnSettoPaymentComplete::CreateLambda(
@@ -80,7 +80,6 @@ SettoSDK->OpenPayment(Params, FOnSettoPaymentComplete::CreateLambda(
 
 | Property | Type | Description |
 |----------|------|-------------|
-| MerchantId | FString | Required. Your merchant ID |
 | Environment | ESettoEnvironment | Dev or Prod |
 | IdpToken | FString | Optional. For auto-login |
 | bDebug | bool | Enable debug logging |
@@ -89,6 +88,7 @@ SettoSDK->OpenPayment(Params, FOnSettoPaymentComplete::CreateLambda(
 
 | Property | Type | Description |
 |----------|------|-------------|
+| MerchantId | FString | Required. Your merchant ID (멀티 머천트 지원) |
 | Amount | FString | Required. Payment amount in USD |
 | OrderId | FString | Optional. Your order reference |
 
