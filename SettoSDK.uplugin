@@ -1,0 +1,30 @@
+{
+    "FileVersion": 3,
+    "Version": 1,
+    "VersionName": "0.1.0",
+    "FriendlyName": "Setto SDK",
+    "Description": "Setto Unreal SDK - 시스템 브라우저 기반 결제 연동 SDK",
+    "Category": "Payment",
+    "CreatedBy": "Setto",
+    "CreatedByURL": "https://settopay.com",
+    "DocsURL": "https://github.com/settopay-app/setto-unreal-sdk",
+    "MarketplaceURL": "",
+    "SupportURL": "https://github.com/settopay-app/setto-unreal-sdk/issues",
+    "CanContainContent": false,
+    "IsBetaVersion": true,
+    "IsExperimentalVersion": false,
+    "Installed": false,
+    "Modules": [
+        {
+            "Name": "SettoSDK",
+            "Type": "Runtime",
+            "LoadingPhase": "Default",
+            "PlatformAllowList": [
+                "Win64",
+                "Mac",
+                "IOS",
+                "Android"
+            ]
+        }
+    ]
+}
