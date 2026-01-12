@@ -1,15 +1,15 @@
 {
     "FileVersion": 3,
     "Version": 1,
-    "VersionName": "0.1.0",
+    "VersionName": "0.1.1",
     "FriendlyName": "Setto SDK",
-    "Description": "Setto Unreal SDK - 시스템 브라우저 기반 결제 연동 SDK",
+    "Description": "Integrate Setto stablecoin payments into your Unreal Engine game",
     "Category": "Payment",
     "CreatedBy": "Setto",
     "CreatedByURL": "https://settopay.com",
-    "DocsURL": "https://github.com/settopay-app/setto-unreal-sdk",
+    "DocsURL": "https://docs.settopay.com/sdk/unreal",
     "MarketplaceURL": "",
-    "SupportURL": "https://github.com/settopay-app/setto-unreal-sdk/issues",
+    "SupportURL": "https://github.com/settopay-app/settopay-sdk-unreal/issues",
     "CanContainContent": false,
     "IsBetaVersion": true,
     "IsExperimentalVersion": false,
@@ -23,7 +23,8 @@
                 "Win64",
                 "Mac",
                 "IOS",
-                "Android"
+                "Android",
+                "HTML5"
             ]
         }
     ]

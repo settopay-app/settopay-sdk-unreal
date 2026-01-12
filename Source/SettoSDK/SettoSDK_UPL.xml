@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright Setto. All Rights Reserved. -->
+<root xmlns:android="http://schemas.android.com/apk/res/android">
+    <init>
+        <log text="SettoSDK UPL init"/>
+    </init>
+
+    <!-- Android dependencies -->
+    <androidManifestUpdates>
+        <addElements tag="application">
+            <!-- Intent filter for URL Scheme callback -->
+            <activity
+                android:name="com.setto.sdk.SettoCallbackActivity"
+                android:exported="true"
+                android:launchMode="singleTask">
+                <intent-filter>
+                    <action android:name="android.intent.action.VIEW"/>
+                    <category android:name="android.intent.category.DEFAULT"/>
+                    <category android:name="android.intent.category.BROWSABLE"/>
+                    <!-- URL scheme: setto-{merchantId}://callback -->
+                    <data android:scheme="setto-$S(SETTO_MERCHANT_ID)" android:host="callback"/>
+                </intent-filter>
+            </activity>
+        </addElements>
+
+        <!-- Queries for Custom Tabs -->
+        <addElements tag="manifest">
+            <queries>
+                <intent>
+                    <action android:name="android.support.customtabs.action.CustomTabsService"/>
+                </intent>
+            </queries>
+        </addElements>
+    </androidManifestUpdates>
+
+    <!-- Gradle dependencies -->
+    <buildGradleAdditions>
+        <insert>
+dependencies {
+    implementation 'androidx.browser:browser:1.5.0'
+}
+        </insert>
+    </buildGradleAdditions>
+
+    <!-- Copy Java source files -->
+    <resourceCopies>
+        <copyFile src="$S(PluginDir)/Java/SettoSDK.java" dst="$S(BuildDir)/src/com/setto/sdk/SettoSDK.java"/>
+        <copyFile src="$S(PluginDir)/Java/SettoCallbackActivity.java" dst="$S(BuildDir)/src/com/setto/sdk/SettoCallbackActivity.java"/>
+    </resourceCopies>
+</root>
