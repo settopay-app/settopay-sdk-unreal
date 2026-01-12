@@ -26,7 +26,6 @@ Call InitializeSDK with:
 Call OpenPayment with:
   - MerchantId: "your-merchant-id"  // 멀티 머천트 지원
   - Amount: "10.00"
-  - OrderId: (optional)
 Bind OnComplete delegate
 ```
 
@@ -90,7 +89,6 @@ SettoSDK->OpenPayment(Params, FOnSettoPaymentComplete::CreateLambda(
 |----------|------|-------------|
 | MerchantId | FString | Required. Your merchant ID (멀티 머천트 지원) |
 | Amount | FString | Required. Payment amount in USD |
-| OrderId | FString | Optional. Your order reference |
 
 ### FSettoPaymentResult
 

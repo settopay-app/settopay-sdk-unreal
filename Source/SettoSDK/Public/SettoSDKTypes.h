@@ -38,10 +38,6 @@ struct SETTOSDK_API FSettoConfig
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Setto")
     ESettoEnvironment Environment = ESettoEnvironment::Dev;
 
-    /** IdP Token for auto-login (optional) */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Setto")
-    FString IdpToken;
-
     /** Enable debug logging */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Setto")
     bool bDebug = false;
@@ -63,9 +59,9 @@ struct SETTOSDK_API FSettoPaymentParams
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Setto")
     FString Amount;
 
-    /** Order ID (optional) */
+    /** IdP Token for auto-login (optional) */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Setto")
-    FString OrderId;
+    FString IdpToken;
 };
 
 /**

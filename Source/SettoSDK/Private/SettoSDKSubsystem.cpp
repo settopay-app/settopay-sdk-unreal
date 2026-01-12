@@ -83,28 +83,9 @@ void USettoSDKSubsystem::OpenPayment(const FSettoPaymentParams& Params, const FO
 
     PendingCallback = OnComplete;
 
-    if (CurrentConfig.IdpToken.IsEmpty())
-    {
-        // Simple Mode: Direct URL with query params
-        FString Url = FString::Printf(TEXT("%s/pay/wallet?merchant_id=%s&amount=%s"),
-            *GetBaseUrl(),
-            *Params.MerchantId,
-            *Params.Amount);
-
-        if (!Params.OrderId.IsEmpty())
-        {
-            Url += FString::Printf(TEXT("&order_id=%s"), *Params.OrderId);
-        }
-
-        DebugLog(FString::Printf(TEXT("Opening Simple Mode: %s"), *Url));
-        OpenBrowser(Url);
-    }
-    else
-    {
-        // Full Mode: Request PaymentToken first
-        DebugLog(TEXT("Requesting PaymentToken for Full Mode"));
-        RequestPaymentToken(Params);
-    }
+    // 항상 PaymentToken 발급 (idpToken 유무와 상관없이)
+    DebugLog(TEXT("Requesting PaymentToken..."));
+    RequestPaymentToken(Params);
 }
 
 void USettoSDKSubsystem::Reset()
@@ -132,11 +113,10 @@ void USettoSDKSubsystem::RequestPaymentToken(const FSettoPaymentParams& Params)
     TSharedRef<FJsonObject> JsonObject = MakeShared<FJsonObject>();
     JsonObject->SetStringField(TEXT("merchant_id"), Params.MerchantId);
     JsonObject->SetStringField(TEXT("amount"), Params.Amount);
-    if (!Params.OrderId.IsEmpty())
+    if (!Params.IdpToken.IsEmpty())
     {
-        JsonObject->SetStringField(TEXT("order_id"), Params.OrderId);
+        JsonObject->SetStringField(TEXT("idp_token"), Params.IdpToken);
     }
-    JsonObject->SetStringField(TEXT("idp_token"), CurrentConfig.IdpToken);
 
     FString JsonBody;
     TSharedRef<TJsonWriter<>> Writer = TJsonWriterFactory<>::Create(&JsonBody);
