@@ -269,6 +269,15 @@ FSettoPaymentResult USettoSDKSubsystem::ParseCallbackUrl(const FString& Url)
             Result.Status = ESettoPaymentStatus::Success;
             Result.PaymentId = Params.FindRef(TEXT("payment_id"));
             Result.TxHash = Params.FindRef(TEXT("tx_hash"));
+            Result.FromAddress = Params.FindRef(TEXT("from_address"));
+            Result.ToAddress = Params.FindRef(TEXT("to_address"));
+            Result.Amount = Params.FindRef(TEXT("amount"));
+            FString ChainIdStr = Params.FindRef(TEXT("chain_id"));
+            if (!ChainIdStr.IsEmpty())
+            {
+                Result.ChainId = FCString::Atoi(*ChainIdStr);
+            }
+            Result.TokenSymbol = Params.FindRef(TEXT("token_symbol"));
         }
         else if (Status == TEXT("failed"))
         {

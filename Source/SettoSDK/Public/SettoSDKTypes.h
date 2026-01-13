@@ -84,6 +84,26 @@ struct SETTOSDK_API FSettoPaymentResult
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Setto")
     FString TxHash;
 
+    /** Payer wallet address (returned from server) */
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Setto")
+    FString FromAddress;
+
+    /** Settlement recipient address (returned from server) */
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Setto")
+    FString ToAddress;
+
+    /** Payment amount in USD (e.g. "10.00", returned from server) */
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Setto")
+    FString Amount;
+
+    /** Chain ID (e.g. 8453, 56, 900001, returned from server) */
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Setto")
+    int32 ChainId = 0;
+
+    /** Token symbol (e.g. "USDC", "USDT", returned from server) */
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Setto")
+    FString TokenSymbol;
+
     /** Error message (on failure) */
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Setto")
     FString Error;
