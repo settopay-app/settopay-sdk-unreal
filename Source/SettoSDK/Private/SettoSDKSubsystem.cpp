@@ -19,8 +19,13 @@
 #include "Android/AndroidApplication.h"
 #endif
 
-const FString USettoSDKSubsystem::DevBaseUrl = TEXT("https://dev-wallet.settopay.com");
-const FString USettoSDKSubsystem::ProdBaseUrl = TEXT("https://wallet.settopay.com");
+// API 서버 (백엔드 gRPC-Gateway)
+const FString USettoSDKSubsystem::DevApiUrl = TEXT("https://dev-wallet.settopay.com");
+const FString USettoSDKSubsystem::ProdApiUrl = TEXT("https://wallet.settopay.com");
+
+// 웹앱 (프론트엔드 결제 페이지)
+const FString USettoSDKSubsystem::DevWebAppUrl = TEXT("https://dev-app.settopay.com");
+const FString USettoSDKSubsystem::ProdWebAppUrl = TEXT("https://app.settopay.com");
 
 void USettoSDKSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 {
@@ -96,16 +101,21 @@ void USettoSDKSubsystem::Reset()
     DebugLog(TEXT("SDK Reset"));
 }
 
-FString USettoSDKSubsystem::GetBaseUrl() const
+FString USettoSDKSubsystem::GetApiUrl() const
 {
-    return CurrentConfig.Environment == ESettoEnvironment::Dev ? DevBaseUrl : ProdBaseUrl;
+    return CurrentConfig.Environment == ESettoEnvironment::Dev ? DevApiUrl : ProdApiUrl;
+}
+
+FString USettoSDKSubsystem::GetWebAppUrl() const
+{
+    return CurrentConfig.Environment == ESettoEnvironment::Dev ? DevWebAppUrl : ProdWebAppUrl;
 }
 
 void USettoSDKSubsystem::RequestPaymentToken(const FSettoPaymentParams& Params)
 {
     TSharedRef<IHttpRequest, ESPMode::ThreadSafe> Request = FHttpModule::Get().CreateRequest();
 
-    Request->SetURL(GetBaseUrl() + TEXT("/api/external/payment/token"));
+    Request->SetURL(GetApiUrl() + TEXT("/api/external/payment/token"));
     Request->SetVerb(TEXT("POST"));
     Request->SetHeader(TEXT("Content-Type"), TEXT("application/json"));
 
@@ -182,7 +192,7 @@ void USettoSDKSubsystem::RequestPaymentToken(const FSettoPaymentParams& Params)
 
             // Open browser with PaymentToken (Fragment for security)
             FString Url = FString::Printf(TEXT("%s/pay/wallet#pt=%s"),
-                *GetBaseUrl(),
+                *GetWebAppUrl(),
                 *FGenericPlatformHttp::UrlEncode(PaymentToken));
 
             DebugLog(FString::Printf(TEXT("Opening Full Mode: %s"), *Url));

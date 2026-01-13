@@ -55,8 +55,11 @@ public:
     FOnSettoPaymentCompleteMulticast OnPaymentComplete;
 
 protected:
-    /** Get base URL for current environment */
-    FString GetBaseUrl() const;
+    /** Get API URL for current environment */
+    FString GetApiUrl() const;
+
+    /** Get WebApp URL for current environment */
+    FString GetWebAppUrl() const;
 
     /** Request PaymentToken from server (Full Mode) */
     void RequestPaymentToken(const FSettoPaymentParams& Params);
@@ -83,6 +86,8 @@ private:
     FSettoConfig CurrentConfig;
     FOnSettoPaymentComplete PendingCallback;
 
-    static const FString DevBaseUrl;
-    static const FString ProdBaseUrl;
+    static const FString DevApiUrl;
+    static const FString ProdApiUrl;
+    static const FString DevWebAppUrl;
+    static const FString ProdWebAppUrl;
 };
